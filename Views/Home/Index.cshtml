@@ -1,0 +1,78 @@
+﻿@model StripeCheckout.Models.PayModel
+@{
+    ViewData["Title"] = "Online Shop";
+}
+
+<div class="row text-center">
+    <div class="col-md-1">
+        <img class="portrait" style="height: 90px;object-fit:cover" src="~/images/Payment-Gateway_Stripe.png" />
+    </div>
+    <div class="col-md-11">
+        <h1 class="display-4">Stripe Checkout ASP.NET Core 3.1 MVC</h1>
+    </div>
+</div>
+
+<hr />
+
+<form asp-action="pay" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label asp-for="CustomerName" class="control-label"></label>
+                <input asp-for="CustomerName" class="form-control" />
+                <span asp-validation-for="CustomerName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label bg-info">Card number 4242424242424242, any future month, year and CVC any 3 digit number can be used for testing!</label>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <label asp-for="CardNumder" class="control-label"></label>
+                <input asp-for="CardNumder" class="form-control" />
+                <span asp-validation-for="CardNumder" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label asp-for="Month" class="control-label"></label>
+                    <input asp-for="Month" class="form-control" placeholder="MM" />
+                    <span asp-validation-for="Month" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label asp-for="Year" class="control-label"></label>
+                    <input asp-for="Year" class="form-control" placeholder="YYYY" />
+                    <span asp-validation-for="Year" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="CVC" class="control-label"></label>
+                <input asp-for="CVC" class="form-control" />
+                <span asp-validation-for="CVC" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Amount" class="control-label"></label>
+                <input asp-for="Amount" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+            <div class="form-group text-right">
+                <input type="submit" value="Stripe Checkout" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@section scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
