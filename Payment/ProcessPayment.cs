@@ -13,7 +13,7 @@ namespace StripeCheckout.Payment
         {
             try
             {
-                StripeConfiguration.ApiKey = "sk_test_51HLkdyDeXArKKbmOiqqIEh22psfbLBI7Fm30AsOxg5ZKwiHyCpsERj0NyJP1FyfbfcV9jA4XMi17aOxuyFbyQdzJ00RJtsSLgy";
+                StripeConfiguration.ApiKey = "your secret key";
 
                 var options = new TokenCreateOptions
                 {
