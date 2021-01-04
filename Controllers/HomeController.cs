@@ -24,6 +24,18 @@ namespace StripeCheckout.Controllers
             return View();
         }
 
+        public IActionResult Page1()
+        {
+            return View();
+        }
+        public IActionResult Page2()
+        {
+            return View();
+        }
+        public IActionResult Page3()
+        {
+            return View();
+        }
         public IActionResult Privacy()
         {
             return View();

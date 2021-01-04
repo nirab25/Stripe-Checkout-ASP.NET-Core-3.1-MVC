@@ -1,0 +1,261 @@
+﻿
+<h1>Page 1</h1>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+<script src="https://js.stripe.com/v3/"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<style>
+      #btn {
+        height: 4vh;
+        padding: 0 5%;
+        /*background: #2f3773;*/
+        background: #1E90FF;
+        color: white;
+        border-radius: 5px;
+        border: none;
+        /*font-size: 1.5vw;*/
+        margin: auto 10px;
+      }
+      .input_value {
+        appearance: none;
+        background: linear-gradient(
+          to right,
+          #737373 0%,
+          #737373 50%,
+          #bfbfbf 50%,
+          #bfbfbf 100%
+        );
+
+        height: 10px;
+        width: 85%;
+        outline: none;
+
+        color: rgb(235, 16, 53);
+        /* text-align: center; */
+        font-size: 1.5vw;
+        margin: auto 20px;
+      }
+      .input_value::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        background: #737373;
+        border-radius: 50%;
+        height: 25px;
+        width: 25px;
+      }
+      .inputRange {
+        width: 60%;
+      }
+      .suggestedAmounts {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items:center;
+        vertical-align: middle
+      }
+      .div_01 {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+      }
+      .div_02 {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        width: 100%;
+      }
+
+      #div_02_label {
+        color:black;
+        padding-right:10px;
+        align-items: center;
+        padding-top:8px;
+      }
+
+      #donate_label {
+        margin: 15px;
+        color: black;
+      }
+      .payment {
+        height: 30vh;
+        padding: 10px 20px;
+      }
+      .terms {
+        padding: 10px 0;
+        background: #bfbfbf;
+        text-align: center;
+      }
+      .amt-btn {
+        height: 40px;
+        min-width: 100px;
+        padding: 5px 20px;
+        margin: 10px 20px;
+        background: #1E90FF;
+        color:white;
+        border: 1px solid #bfbfbf;
+        border-radius: 5px;
+      }
+      #inputAmt{
+          border: 1px solid #1E90FF;
+          border-radius: 5px;
+      }
+
+      @@media screen and (max-width: 480px) {
+        #btn {
+          width: 50%;
+          padding: 0 5%;
+          margin: 10px auto;
+          font-size: 4vw;
+        }
+        .input_value {
+          height: 10px;
+          width: 100%;
+          margin: 10px 0;
+          text-align: center;
+          font-size: 4vw;
+        }
+        .inputRange {
+          width: 90%;
+        }
+        .div_01 {
+          /* border: 1px solid red; */
+          width: 100%;
+        }
+        .div_02 {
+            width: 100%;
+        }
+        .amt-btn {
+          height: 30px;
+          width: 40%;
+          margin: 10px 10px;
+        }
+        .payment {
+          height: 30vh;
+        }
+        .suggestedAmounts {
+          width: 100%;
+          display: inline-block;
+          /* justify-content: flex-start; */
+        }
+      }
+</style>
+<div class="payment">
+    <div class="div_01">
+        <div class="inputRange">
+            <div class="suggestedAmounts">
+                <button class="amt-btn" data-val="10">$10</button>
+                <button class="amt-btn" data-val="20">$20</button>
+                <button class="amt-btn" data-val="50">$50</button>
+                <button class="amt-btn" data-val="100">$100</button>
+                <button class="amt-btn" data-val="250">$250</button>
+            </div>
+            <div class="suggestedAmounts">
+                <button class="amt-btn" data-val="500">$500</button>
+                <button class="amt-btn" data-val="1000">$1000</button>
+                <button class="amt-btn" data-val="2500">$2500</button>
+                <button class="amt-btn" data-val="5000">$5000</button>
+                <button class="amt-btn" data-val="0">Other</button>
+            </div>
+        </div>
+    </div>
+    <div class="div_02">
+        <label id="div_02_label" for="inputAmt">$</label>
+        <input type="text" id="inputAmt" name="inputAmt">
+        <button id="btn">Donate Now</button>
+    </div>
+</div>
+<div class="terms">
+    <h4>COUNCIL FOR EDUCATION (CED)</h4>
+    <h5>A Nevada Domestic Non-Profit Corporation</h5>
+    <p>
+        The Council for Education (CED), a non-profit Nevada organization, has
+        been at the forefront of promoting integrity and accountability in the
+        administration of federal student aid and loan programs to the benefit
+        of students, prospective students, and private lending institutions. It
+        operates under section 501(c)(3) of the Internal Revenue Code and is
+        organized to litigate (Rev. Rul. 80–278, 1980–2 C.B. 175) in defense of
+        the Civil Rights Act on behalf of a charitable class. Its principal
+        activity consists of legal services as an audit relator of institutions
+        in receipt of Title IV funds for specific evidence of any violation of
+        34 C.F.R. §§ 668.161 and 668.162. During a bid to promote financial
+        stability and oversight in the administration of the federal student
+        loan program, the CED discovered evidence of fraud totaling more than $5
+        billion in federal student loans owed to borrowers and service providers
+        of student loans by the state of California. Without an audit
+        investigation into the accrediting agencies that monitor the academic
+        quality of postsecondary institutions and educational programs for
+        federal purposes . California state institutions appear to be knowingly
+        and intentionally sending false and unaudited financial records to
+        banks, student loan service providers, underwriters of service
+        providers’ insurance bonds, and the U.S. Department of Education
+        (Department) in the administration of federal student loan programs. If
+        so, and if done with the intent of circumventing federal regulations,
+        this would rise to serious securities violations, as well as violations
+        of other state and federal rules and laws. Financial records are
+        submitted by states to the Department for the purpose of supplementing
+        their state budget with federal student loans guaranteed by the
+        Department. The model gives preferences in university admissions to
+        non-residential students, which may be for the purpose of drawing funds
+        from the federal government in higher out-of-state tuition fees.
+        Simultaneously, the federal student loan deficit has ballooned to a
+        crisis level of nearly $1.5 trillion (USD).
+    </p>
+</div>
+<script>
+    const pkey = "pk_live_3tcT7zDsmUMaZi4NUxGrHtnk";
+    const base_url = "https://stripeserv.azurewebsites.net/create-checkout";
+    var payload = {
+        val: 5000
+    };
+
+    $(".input_value").on("input", function (a) {
+        var v1 = parseFloat(a.currentTarget.value).toFixed(2);
+        if (v1) {
+            $("#btn").html("Pay $" + v1);
+            payload.val = v1 * 100;
+        }
+        console.log(a.currentTarget.value);
+    });
+
+    $(".amt-btn").on("click", function () {
+        var value = this.dataset.val;
+        if (value) {
+            $("#inputAmt").val(value);
+        }
+        else if (value == "NaN" || value == "undefined") {
+            $("#inputAmt").val(0);
+        }
+        console.log(this.dataset.val);
+    });
+
+    var stripe = Stripe(pkey);
+    console.log(stripe);
+    var btn = document.getElementById("btn");
+
+    btn.addEventListener("click", async function () {
+
+        var amt = $("#inputAmt").val();
+        payload.val = amt * 100;
+
+        console.log(payload.val);
+
+        var result = await fetch(base_url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+        })
+            .then((res) => res.json())
+            .then((session) => {
+                console.log(session);
+                if (session.id) {
+                    return stripe.redirectToCheckout({ sessionId: session.id });
+                }
+                alert("Invalid Value");
+            });
+        console.log(result);
+    });
+</script>
+
+
