@@ -4,8 +4,7 @@
 
 <style>
     #donate_label {
-        /*color: black;*/
-        margin-top:5px;
+        color: black;
     }
 
     .payment {
@@ -21,7 +20,8 @@
     #inputAmt {
         border: 1px solid #1E90FF;
         border-radius: 5px;
-        height:30px;
+        height: 35px;
+        width: 70%
     }
 
     .flex-container {
@@ -30,75 +30,126 @@
         justify-content: center;
     }
 
-    .flex-container > div {
+    ._topFlexDiv {
         width: 16%;
         margin: 10px;
         text-align: center;
         font-size: 16px;
     }
+
     .amt-btn {
-        height:35px;
+        height: 35px;
     }
 
-    #donate-div {
-        width: 40%
+    #btn {
+        height: 35px;
+        width: 50%;
+        align-items: center;
+    }
+
+    ._bottomFlexDiv1 {
+        width: 100%;
+        /*justify-content: flex-end !important;*/
+        margin-top: 15px
+    }
+
+    ._bottomFlexDiv2 {
+        width: 100%;
+        margin-top: 10px
+    }
+
+    #_print_buttton {
+        height:50px;
+        width:15%;
+        color:white !important;
+        background-color:#bfbfbf;
+        align-items: center;
+        font-size:18px;
+        padding-top: 10px;
     }
 
     @@media only screen and (max-width: 676px) {
-        .flex-container > div {
+        ._topFlexDiv {
             width: 40%;
+        }
+
+        ._bottomFlexDiv1 {
+            width: 100%;
+            margin-top: 15px
+        }
+
+        ._bottomFlexDiv2 {
+            width: 100%;
+            margin-top: 10px
+        }
+
+        #_print_buttton {
+            width:40%;
         }
     }
 
     @@media only screen and (max-width: 480px) {
-        .flex-container > div {
+        ._topFlexDiv {
             width: 40%;
         }
-    }
 
+        ._bottomFlexDiv1 {
+            width: 100%;
+            margin-top: 10px;
+            justify-content: center !important;
+        }
+
+        ._bottomFlexDiv2 {
+            width: 100%;
+            margin-top: 10px;
+            justify-content: center !important;
+        }
+
+        #_print_buttton {
+            width:40%;
+        }
+    }
 </style>
 <div class="payment">
     <div class="flex-container">
-        <div>
+        <div class="_topFlexDiv">
             <button class="btn btn-primary btn-block amt-btn" data-val="10">$10</button>
         </div>
-        <div>
+        <div class="_topFlexDiv">
             <button class="btn btn-primary btn-block amt-btn" data-val="20">$20</button>
         </div>
-        <div>
+        <div class="_topFlexDiv">
             <button class="btn btn-primary btn-block amt-btn" data-val="50">$50</button>
         </div>
-        <div>
+        <div class="_topFlexDiv">
             <button class="btn btn-primary btn-block amt-btn" data-val="100">$100</button>
         </div>
-        <div>
+        <div class="_topFlexDiv">
             <button class="btn btn-primary btn-block amt-btn btn250" data-val="250">$250</button>
         </div>
-        <div>
+        <div class="_topFlexDiv">
             <button class="btn btn-primary btn-block amt-btn btn500" data-val="500">$500</button>
         </div>
-        <div>
+        <div class="_topFlexDiv">
             <button class="btn btn-primary btn-block amt-btn" data-val="1000">$1000</button>
         </div>
-        <div>
+        <div class="_topFlexDiv">
             <button class="btn btn-primary btn-block amt-btn" data-val="2500">$2500</button>
         </div>
-        <div>
+        <div class="_topFlexDiv">
             <button class="btn btn-primary btn-block amt-btn" data-val="5000">$5000</button>
         </div>
-        <div>
+        <div class="_topFlexDiv">
             <button class="btn btn-primary btn-block amt-btn" data-val="0">Other</button>
         </div>
     </div>
     <div class="flex-container">
-        <div class="text-right">
-            <label id="donate_label" for="inputAmt">$</label>
+        <div class="form-group form-inline justify-content-center _bottomFlexDiv1">
+            <label for="inputAmt" id="donate_label" class="mr-2" style="color:black">$</label>
+            <input type="text" class="form-control border-primary text-center" id="inputAmt" name="inputAmt">
         </div>
-        <div id="donate-div" class="align-middle">
-            <input type="text" class="form-control text-center" id="inputAmt" name="inputAmt">
-        </div>
-        <div>
-            <button id="btn" class="btn btn-primary btn-lg">Donate Now</button>
+        <div class="form-group form-inline justify-content-center _bottomFlexDiv2">
+            <button id="btn" class="btn btn-primary btn-lg">Tax Exempted Donation</button>
         </div>
     </div>
 </div>
@@ -139,6 +190,9 @@
         crisis level of nearly $1.5 trillion (USD).
     </p>
 </div>
+<div class="form-group form-inline justify-content-center mt-5">
+    <a id="_print_buttton" class="btn btn-lg" href="https://print.cfored.com" target="_blank">Print</a>
+</div>
 <script>
     const pkey = "pk_live_3tcT7zDsmUMaZi4NUxGrHtnk";
     const base_url = "https://stripeserv.azurewebsites.net/create-checkout";
@@ -146,17 +200,10 @@
         val: 5000
     };
 
-    $(".input_value").on("input", function (a) {
-        var v1 = parseFloat(a.currentTarget.value).toFixed(2);
-        if (v1) {
-            $("#btn").html("Pay $" + v1);
-            payload.val = v1 * 100;
-        }
-        console.log(a.currentTarget.value);
-    });
-
     $(".amt-btn").on("click", function () {
         var value = this.dataset.val;
+        //var value = parseFloat(this.dataset.val).toFixed(2);
+
         if (value) {
             $("#inputAmt").val(value);
         }
@@ -166,11 +213,33 @@
         console.log(this.dataset.val);
     });
 
-    var stripe = Stripe(pkey);
+    var btn = document.getElementById("btn");
+    btn.addEventListener("click", function () {
+
+        var amt = $("#inputAmt").val();
+
+        if (amt) {
+            payload.val = amt * 100;
+            console.log(payload.val);
+
+            //TODO: save in session
+
+            window.location.href = 'https://payment.ced.fund/dev-2-paymentinfo'
+
+        } else {
+            alert("Please select or input donation amount.");
+        }
+    });
+
+    /*var stripe = Stripe(pkey);
     console.log(stripe);
     var btn = document.getElementById("btn");
 
     btn.addEventListener("click", async function () {
+
+        var amt = $("#inputAmt").val();
+        payload.val = amt * 100;
+        console.log(payload.val);
 
         var amt = $("#inputAmt").val();
         payload.val = amt * 100;
@@ -180,7 +249,7 @@
         var result = await fetch(base_url, {
             method: "POST",
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "application/json"
             },
             body: JSON.stringify(payload),
         })
@@ -194,4 +263,5 @@
             });
         console.log(result);
     });
+    */
 </script>
