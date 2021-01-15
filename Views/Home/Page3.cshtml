@@ -1,2 +1,161 @@
-﻿
-<h1>Page 3</h1>
+﻿<script src="https://js.stripe.com/v3/"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+
+<style>
+    .payment {
+        padding: 10px 20px;
+    }
+
+    .terms {
+        padding: 10px 0;
+        background: #bfbfbf;
+        text-align: center;
+    }
+
+    .StripeElement {
+        box-sizing: border-box;
+        height: 40px;
+        padding: 10px 12px;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        background-color: white;
+        box-shadow: 0 1px 3px 0 #e6ebf1;
+        -webkit-transition: box-shadow 150ms ease;
+        transition: box-shadow 150ms ease;
+    }
+
+    .StripeElement--focus {
+        box-shadow: 0 1px 3px 0 #cfd7df;
+    }
+
+    .StripeElement--invalid {
+        border-color: #fa755a;
+    }
+
+    .StripeElement--webkit-autofill {
+        background-color: #fefde5 !important;
+    }
+
+    .labels {
+        color: black;
+    }
+</style>
+
+<div class="payment">
+    <form id="payment-form" class="border-primary">
+        <div id="card-element">
+        </div>
+        <div id="card-errors" role="alert"></div>
+        <button id="submit" class="btn btn-lg btn-primary pl-4 mt-4">Donate Now</button>
+    </form>
+</div>
+
+<script>
+    const token_url = "https://stripe-checkout.azurewebsites.net/api/stripe/secret";
+    var stripe = Stripe('pk_test_EOTgC6zr3IXvLP40qI04Vcen');
+
+    var elements = stripe.elements();
+
+    var style = {
+        base: {
+            color: '#32325d',
+            fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+            fontSmoothing: 'antialiased',
+            fontSize: '16px',
+            '::placeholder': {
+                color: '#aab7c4'
+            }
+        },
+        invalid: {
+            color: '#fa755a',
+            iconColor: '#fa755a'
+        }
+    };
+
+    var card = elements.create('card', { style: style });
+    card.mount('#card-element');
+    card.on('change', function (event) {
+        var displayError = document.getElementById('card-errors');
+        if (event.error) {
+            displayError.textContent = event.error.message;
+        } else {
+            displayError.textContent = '';
+        }
+    });
+
+    var form = document.getElementById('payment-form');
+
+    form.addEventListener('submit', function (ev) {
+        ev.preventDefault();
+
+        var amount = localStorage.getItem('donationAmount');
+        var email = localStorage.getItem('email');
+        var fname = localStorage.getItem('fname');
+        var lname = localStorage.getItem('lname');
+        var countrySelect = localStorage.getItem('countrySelect');
+        var addr1 = localStorage.getItem('addr1');
+        var addr2 = localStorage.getItem('addr2');
+        var city = localStorage.getItem('city');
+        var postalcode = localStorage.getItem('postalcode');
+        var phone = localStorage.getItem('phone');
+
+        const data = {
+            Amount: amount,
+            Email: email,
+            FirstName: fname,
+            LastName: lname,
+            Country: countrySelect,
+            Address1: addr1,
+            Address2: addr2,
+            City: city,
+            PostalCode: postalcode,
+            Phone: phone,
+            Currency: "USD"
+        };
+
+        console.log(data);
+
+        axios.post(token_url, data)
+            .then(responseJson => {
+                console.log(responseJson);
+                var clientSecret = responseJson.data.clientSecret;
+
+                stripe.confirmCardPayment(clientSecret, {
+                    payment_method: {
+                        card: card,
+                        billing_details: {
+                            name: fname + ' ' + lname
+                        }
+                    }
+                })
+                .then(function (result) {
+                    console.log(result);
+
+                    if (result.error) {
+                        // Show error to your customer (e.g., insufficient funds)
+                        console.log(result.error.message);
+                    } else {
+                        // The payment has been processed!
+                        if (result.paymentIntent.status === 'succeeded') {
+                            // Show a success message to your customer
+                            // There's a risk of the customer closing the window before callback
+                            // execution. Set up a webhook or plugin to listen for the
+                            // payment_intent.succeeded event that handles any business critical
+                            // post-payment actions.
+                            console.log("Payment Success!");
+
+                            //redirect to success page!
+                            window.location.href = 'https://terms.ced.fund/terms';
+                        }
+                    }
+            });
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+        .then(function () {
+            localStorage.clear();
+        });
+    });
+</script>

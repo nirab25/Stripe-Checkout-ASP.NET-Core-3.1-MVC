@@ -21,7 +21,8 @@
         border: 1px solid #1E90FF;
         border-radius: 5px;
         height: 35px;
-        width: 70%
+        width: 70%;
+        font-size: 16px !important;
     }
 
     .flex-container {
@@ -39,12 +40,14 @@
 
     .amt-btn {
         height: 35px;
+        font-size: 16px !important;
     }
 
     #btn {
-        height: 35px;
+        height: 45px;
         width: 50%;
         align-items: center;
+        font-size: 16px !important;
     }
 
     ._bottomFlexDiv1 {
@@ -54,18 +57,24 @@
     }
 
     ._bottomFlexDiv2 {
-        width: 100%;
+        width: 50%;
         margin-top: 10px
     }
 
     #_print_buttton {
-        height:50px;
-        width:15%;
-        color:white !important;
-        background-color:#bfbfbf;
+        height: 50px;
+        width: 15%;
+        color: white !important;
+        background-color: #bfbfbf;
         align-items: center;
-        font-size:18px;
+        font-size: 18px;
         padding-top: 10px;
+    }
+
+    @@media only screen and (max-width: 995px) {
+        #btn {
+            height: 60px !important;
+        }
     }
 
     @@media only screen and (max-width: 676px) {
@@ -84,7 +93,11 @@
         }
 
         #_print_buttton {
-            width:40%;
+            width: 40%;
+        }
+
+        #btn {
+            height: 60px !important;
         }
     }
 
@@ -106,7 +119,11 @@
         }
 
         #_print_buttton {
-            width:40%;
+            width: 40%;
+        }
+
+        #btn {
+            height: 60px !important;
         }
     }
 </style>
@@ -143,15 +160,15 @@
             <button class="btn btn-primary btn-block amt-btn" data-val="0">Other</button>
         </div>
     </div>
-    <div class="flex-container">
+    <form id="formInputAmt" class="flex-container">
         <div class="form-group form-inline justify-content-center _bottomFlexDiv1">
             <label for="inputAmt" id="donate_label" class="mr-2" style="color:black">$</label>
-            <input type="text" class="form-control border-primary text-center" id="inputAmt" name="inputAmt">
+            <input type="text" class="form-control border-primary text-center" id="inputAmt" name="inputAmt" required>
         </div>
         <div class="form-group form-inline justify-content-center _bottomFlexDiv2">
-            <button id="btn" class="btn btn-primary btn-lg">Tax Exempted Donation</button>
+            <button id="btn" class="btn btn-primary btn-lg">Tax Exempt Donation</button>
         </div>
-    </div>
+    </form>
 </div>
 <div class="terms">
     <h4>COUNCIL FOR EDUCATION (CED)</h4>
@@ -168,12 +185,8 @@
         in receipt of Title IV funds for specific evidence of any violation of
         34 C.F.R. §§ 668.161 and 668.162. During a bid to promote financial
         stability and oversight in the administration of the federal student
-        loan program, the CED discovered evidence of fraud totaling more than $5
-        billion in federal student loans owed to borrowers and service providers
-        of student loans by the state of California. Without an audit
-        investigation into the accrediting agencies that monitor the academic
-        quality of postsecondary institutions and educational programs for
-        federal purposes . California state institutions appear to be knowingly
+        loan program, the CED discovered evidence of fraud totaling more than $1
+        trillion (USD). State institutions appear to be knowingly
         and intentionally sending false and unaudited financial records to
         banks, student loan service providers, underwriters of service
         providers’ insurance bonds, and the U.S. Department of Education
@@ -183,11 +196,7 @@
         of other state and federal rules and laws. Financial records are
         submitted by states to the Department for the purpose of supplementing
         their state budget with federal student loans guaranteed by the
-        Department. The model gives preferences in university admissions to
-        non-residential students, which may be for the purpose of drawing funds
-        from the federal government in higher out-of-state tuition fees.
-        Simultaneously, the federal student loan deficit has ballooned to a
-        crisis level of nearly $1.5 trillion (USD).
+        Department.
     </p>
 </div>
 <div class="form-group form-inline justify-content-center mt-5">
@@ -213,55 +222,32 @@
         console.log(this.dataset.val);
     });
 
+    $(document).ready(function () {
+        $('#formInputAmt').submit(function (e) {
+            e.preventDefault();
+        })
+    });
+
     var btn = document.getElementById("btn");
-    btn.addEventListener("click", function () {
+
+    btn.addEventListener("click", function (e) {
+        e.preventDefault();
 
         var amt = $("#inputAmt").val();
+        var amtInt = parseInt(amt);
 
-        if (amt) {
-            payload.val = amt * 100;
-            console.log(payload.val);
+        if (amtInt > 0) {
+            var amtInCent = amtInt * 100;
 
-            //TODO: save in session
+            console.log(amtInCent);
 
-            window.location.href = 'https://payment.ced.fund/dev-2-paymentinfo'
+            localStorage.setItem('donationAmount', amtInCent);
+
+            window.location.href = 'https://payment.ced.fund/dev-2-paymentinfo';
 
         } else {
-            alert("Please select or input donation amount.");
+            alert("Please select or input donation amount greater than zero");
         }
     });
 
-    /*var stripe = Stripe(pkey);
-    console.log(stripe);
-    var btn = document.getElementById("btn");
-
-    btn.addEventListener("click", async function () {
-
-        var amt = $("#inputAmt").val();
-        payload.val = amt * 100;
-        console.log(payload.val);
-
-        var amt = $("#inputAmt").val();
-        payload.val = amt * 100;
-
-        console.log(payload.val);
-
-        var result = await fetch(base_url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(payload),
-        })
-            .then((res) => res.json())
-            .then((session) => {
-                console.log(session);
-                if (session.id) {
-                    return stripe.redirectToCheckout({ sessionId: session.id });
-                }
-                alert("Invalid Value");
-            });
-        console.log(result);
-    });
-    */
 </script>
