@@ -1,3 +1,8 @@
 .vs/
 bin/
 obj/
+*.v2
+.vs/StripeCheckout/v16/.suo
+*.dll
+*.pdb
+*.cache
